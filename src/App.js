@@ -6,15 +6,15 @@ import PokemonImage from './PokemonImage';
 import './App.css';
 import Searchbar from './Searchbar';
 
+
 function App() {
 
-const [pokemon, setPokemon] = useState([])
+const [pokemonList, setPokemon] = useState([])
 const [currentPageUrl, setCurrentPageUrl] = useState("https://pokeapi.co/api/v2/pokemon?limit=10")
 const [nextPageUrl, setNextPageUrl] = useState()
 const [prevPageUrl, setPrevPageUrl] = useState()
 const [loading, setLoading] = useState(true)
-
-const [pokemonImage, setPokemonImage] = useState()
+const [pokemonImage, setPokemonImage] = useState("")
 
 // https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg
 
@@ -27,7 +27,8 @@ useEffect(() => {
     setLoading(false)
     setNextPageUrl(res.data.next)
     setPrevPageUrl(res.data.previous)
-    setPokemon(res.data.results.map(p => p.name))
+    setPokemon(res.data.results)
+    // setPokemonImage()
     console.log(res.data)
   })
 
@@ -44,6 +45,30 @@ function gotoPrevPage() {
   setCurrentPageUrl(prevPageUrl)
 }
 
+// function selectPokemon() {
+  // setPokemonImage(`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${res.data.results.url.split('').slice(34, -1).join('')}.svg`)
+// }
+
+// "https://pokeapi.co/api/v2/pokemon/1/"
+// "https://pokeapi.co/api/v2/pokemon/" "1/"
+  
+const baseImageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/";
+const imageExtension = ".svg";
+const onViewPokemon = (selectedPokemon) => {
+  // let pokemonUrl = "";
+
+  // pokemonUrl = selectedPokemon.url;
+  // const numberFromUrl = pokemonUrl.split("pokemon/")[1];
+  // const pokemonNumber = numberFromUrl.replace("/", "");
+
+  const pokemonNumber = selectedPokemon.url.split("pokemon/")[1].replace("/", "");
+
+  // TODO: Handle pokemonNumber > 700 here
+  const pokemonImageUrl = `${baseImageUrl}${pokemonNumber}${imageExtension}`;
+
+  setPokemonImage(pokemonImageUrl);
+}
+
 
 if(loading) return "Loading..."
 
@@ -51,9 +76,12 @@ if(loading) return "Loading..."
     <>
       <main>
         <div className="pokedex">
+          
             
           <div className="pokedex-left">
+            <div className="background-clip-cover"></div>
             <div className="pokedex-left__top">
+              
               <div className="blue-circle"></div>
               <div className="red-circle"></div>
               <div className="yellow-circle"></div>
@@ -61,7 +89,7 @@ if(loading) return "Loading..."
             </div>
 
             <div className="pokedex-left__middle">
-              <PokemonList pokemon={pokemon} />
+              <PokemonList pokemonList={pokemonList} onViewPokemon={onViewPokemon} />
               
             </div>
 
@@ -82,7 +110,7 @@ if(loading) return "Loading..."
               <div className="small-red-circle-1"></div>
               <div className="small-red-circle-2"></div>
               <div className="picture-container">
-                <PokemonImage />
+                <PokemonImage pokemonImage={pokemonImage}/>
               </div>
               <div className="large-red-circle"></div>
               <div className="hamburger-icon-1"></div>
@@ -96,6 +124,7 @@ if(loading) return "Loading..."
                 <div className="red-rectangle"></div>
                 <div className="blue-rectangle"></div>
                 <div className="dpad">
+                  
                 </div>
               </div>
             </div>
