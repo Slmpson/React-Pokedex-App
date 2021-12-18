@@ -4,19 +4,43 @@ import axios from 'axios';
 import Pagination from './Pagination';
 import PokemonImage from './PokemonImage';
 import './App.css';
-import Searchbar from './Searchbar';
+// import Searchbar from './Searchbar';
 
 
 function App() {
 
-const [pokemonList, setPokemon] = useState([])
+const [pokemonList, setPokemonList] = useState([])
 const [currentPageUrl, setCurrentPageUrl] = useState("https://pokeapi.co/api/v2/pokemon?limit=10")
 const [nextPageUrl, setNextPageUrl] = useState()
 const [prevPageUrl, setPrevPageUrl] = useState()
 const [loading, setLoading] = useState(true)
 const [pokemonImage, setPokemonImage] = useState("")
+const [searchPokemon, setSearchPokemon] = useState("")
+const [pokemonNum, setPokemonNum] = useState("")
+const [pokemonName, setPokemonName] = useState("")
 
-// https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg
+
+const search = async () => {
+  try{
+    const url = `https://pokeapi.co/api/v2/pokemon/${searchPokemon}`;
+    const res = await axios.get(url);
+    setPokemonNum(res.data.id);
+    setPokemonName(res.data.name);
+    setPokemonImage(res.data.sprites.other.dream_world.front_default);
+    console.log(res);
+  } catch (e)
+{
+  console.log(e);
+}};
+
+const handleChange = (e) => {
+  setSearchPokemon(e.target.value.toLowerCase())
+}
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+  search();
+}
 
 useEffect(() => {
   setLoading(true)
@@ -27,8 +51,7 @@ useEffect(() => {
     setLoading(false)
     setNextPageUrl(res.data.next)
     setPrevPageUrl(res.data.previous)
-    setPokemon(res.data.results)
-    // setPokemonImage()
+    setPokemonList(res.data.results)
     console.log(res.data)
   })
 
@@ -37,35 +60,19 @@ useEffect(() => {
   }
 }, [currentPageUrl])
 
-function gotoNextPage() {
-  setCurrentPageUrl(nextPageUrl)
-}
+const gotoNextPage = () => setCurrentPageUrl(nextPageUrl);
+const gotoPrevPage = () => setCurrentPageUrl(prevPageUrl);
 
-function gotoPrevPage() {
-  setCurrentPageUrl(prevPageUrl)
-}
-
-// function selectPokemon() {
-  // setPokemonImage(`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${res.data.results.url.split('').slice(34, -1).join('')}.svg`)
-// }
-
-// "https://pokeapi.co/api/v2/pokemon/1/"
-// "https://pokeapi.co/api/v2/pokemon/" "1/"
-  
 const baseImageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/";
 const imageExtension = ".svg";
+
 const onViewPokemon = (selectedPokemon) => {
-  // let pokemonUrl = "";
-
-  // pokemonUrl = selectedPokemon.url;
-  // const numberFromUrl = pokemonUrl.split("pokemon/")[1];
-  // const pokemonNumber = numberFromUrl.replace("/", "");
-
+  
   const pokemonNumber = selectedPokemon.url.split("pokemon/")[1].replace("/", "");
-
-  // TODO: Handle pokemonNumber > 700 here
   const pokemonImageUrl = `${baseImageUrl}${pokemonNumber}${imageExtension}`;
 
+  setPokemonName()
+  setPokemonNum(pokemonNumber);
   setPokemonImage(pokemonImageUrl);
 }
 
@@ -110,7 +117,7 @@ if(loading) return "Loading..."
               <div className="small-red-circle-1"></div>
               <div className="small-red-circle-2"></div>
               <div className="picture-container">
-                <PokemonImage pokemonImage={pokemonImage}/>
+                <PokemonImage pokemonImage={pokemonImage} pokemonNum={pokemonNum} pokemonName={pokemonName}/>
               </div>
               <div className="large-red-circle"></div>
               <div className="hamburger-icon-1"></div>
@@ -118,14 +125,22 @@ if(loading) return "Loading..."
               <div className="hamburger-icon-3"></div>
             </div>
             <div className="pokedex-right__bottom">
-              <Searchbar />
+              <div className="searchbar">
+                  <form onSubmit={handleSubmit}>
+                      <label>
+                        <input type="text" onChange={handleChange} placeholder="Search a pokemon" /> 
+                      </label>
+                  </form>
+              </div>
               <div className="fake-buttons-container">
                 <div className="black-circle"></div>
                 <div className="red-rectangle"></div>
                 <div className="blue-rectangle"></div>
-                <div className="dpad">
-                  
-                </div>
+                <div className="dpad-center"></div>
+                <button className='dpad-left'></button>
+                <button className='dpad-right'></button>
+                <button className='dpad-top'></button>
+                <button className='dpad-bottom'></button>
               </div>
             </div>
             

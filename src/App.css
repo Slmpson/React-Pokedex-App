@@ -35,6 +35,8 @@ main{
     position: relative;
 }
 
+
+
 .pokedex-left{
     width: 50%;
     border-right: 3px solid black;
@@ -270,11 +272,22 @@ main{
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+}
+
+.picture p{
+    font-size: 1.2rem;
+    margin-top: -5%;
+    padding: 3%;
 }
 
 .picture img{
     height: 75%;
     width: 75%;
+}
+
+.picture span{
+    text-transform: capitalize;
 }
 
 .pokedex-right__bottom{
@@ -336,6 +349,120 @@ main{
     left: 50%;
     border-radius: 9999em;
     box-shadow: 1px 2px 2px 0px black;
+}
+
+.dpad-center{
+    width: 5%;
+    height: 15.24%;
+    position: absolute;
+    background-color: #444;
+    right: 15%;
+    top: 30%;
+}
+
+.dpad-top{
+    width: 5%;
+    height: 30.48%;
+    position: absolute;
+    background-color: #333;
+    right: 15%;
+    top: 30%;
+    transform: translateY(-98%);
+    border: none;
+    border-top-left-radius: 5%;
+    border-top-right-radius: 5%;
+}
+.dpad-top:active{
+    border-top: 1px solid grey;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+}
+
+.dpad-bottom{
+    width: 5%;
+    height: 30.48%;
+    position: absolute;
+    background-color: #333;
+    right: 15%;
+    top: 30%;
+    transform: translateY(48%);
+    border: none;
+    border-bottom-left-radius: 5%;
+    border-bottom-right-radius: 5%;
+}
+
+.dpad-bottom:active{
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    border-bottom: 1px solid grey;
+}
+
+.dpad-right{
+    width: 10%;
+    height: 15.24%;
+    position: absolute;
+    background-color: #333;
+    right: 15%;
+    top: 30%;
+    transform: translateX(98%);
+    border: none;
+    border-bottom-right-radius: 5%;
+    border-top-right-radius: 5%;
+}
+
+.dpad-right:active{  
+    border-top: 1px solid grey;
+    border-left: none;
+    border-right: 1px solid grey;
+    border-bottom: 1px solid grey;
+}
+
+.dpad-left{
+    width: 10%;
+    height: 15.24%;
+    position: absolute;
+    background-color: #333;
+    right: 15%;
+    top: 30%;
+    transform: translateX(-48%);
+    border: none;
+    border-top-left-radius: 5%;
+    border-bottom-left-radius: 5%;
+}
+
+.dpad-left:active{
+    border-top: 1px solid grey;
+    border-left: 1px solid grey;
+    border-right: none;
+    border-bottom: 1px solid grey;
+
+}
+
+@media only screen and (max-width: 1200px) {
+    .pokedex{
+        width: 80%;
+    }
+}
+
+@media only screen and (max-width: 850px) {
+    .pokedex{
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 500px){
+    .pokedex-left{
+        display: none;
+    }
+
+    .pokedex-right{
+        width: 100%;
+        height: 90%;
+    }
+
+    .pokedex{
+        height: 100%;
+    }
 }
 
 

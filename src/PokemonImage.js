@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function PokemonImage({pokemonImage}) {
+export default function PokemonImage({pokemonImage, pokemonNum, pokemonName}) {
     if (pokemonImage === null || pokemonImage.trim().length === 0)
     {
         return (
@@ -11,9 +11,9 @@ export default function PokemonImage({pokemonImage}) {
         
     return (
         <div className='picture'>
-            <img src={ pokemonImage } alt="No Image Found"/>
+            <p>#{pokemonNum}. <span>{pokemonName}</span> </p>
+            <img src={ pokemonImage } alt=""/>
         </div>
     )
 }
 
-// https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/20.svg
