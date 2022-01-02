@@ -4,7 +4,7 @@ import axios from 'axios';
 import Pagination from './Pagination';
 import PokemonImage from './PokemonImage';
 import './App.css';
-// import Searchbar from './Searchbar';
+import Searchbar from './Searchbar';
 
 
 function App() {
@@ -70,8 +70,9 @@ const onViewPokemon = (selectedPokemon) => {
   
   const pokemonNumber = selectedPokemon.url.split("pokemon/")[1].replace("/", "");
   const pokemonImageUrl = `${baseImageUrl}${pokemonNumber}${imageExtension}`;
+  const viewedPokemonName = selectedPokemon.name
 
-  setPokemonName()
+  setPokemonName(viewedPokemonName);
   setPokemonNum(pokemonNumber);
   setPokemonImage(pokemonImageUrl);
 }
@@ -125,13 +126,7 @@ if(loading) return "Loading..."
               <div className="hamburger-icon-3"></div>
             </div>
             <div className="pokedex-right__bottom">
-              <div className="searchbar">
-                  <form onSubmit={handleSubmit}>
-                      <label>
-                        <input type="text" onChange={handleChange} placeholder="Search a pokemon" /> 
-                      </label>
-                  </form>
-              </div>
+              <Searchbar handleChange={handleChange} handleSubmit={handleSubmit}/>
               <div className="fake-buttons-container">
                 <div className="black-circle"></div>
                 <div className="red-rectangle"></div>

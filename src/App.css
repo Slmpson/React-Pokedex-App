@@ -358,6 +358,7 @@ main{
     background-color: #444;
     right: 15%;
     top: 30%;
+    box-shadow: 3px 3px 5px 0px black;
 }
 
 .dpad-top{
@@ -389,12 +390,14 @@ main{
     border: none;
     border-bottom-left-radius: 5%;
     border-bottom-right-radius: 5%;
+    box-shadow: 2px 2px 2px 0px black;
 }
 
 .dpad-bottom:active{
     border-left: 1px solid grey;
     border-right: 1px solid grey;
     border-bottom: 1px solid grey;
+    box-shadow: 0 0 black;
 }
 
 .dpad-right{
@@ -408,6 +411,7 @@ main{
     border: none;
     border-bottom-right-radius: 5%;
     border-top-right-radius: 5%;
+    box-shadow: 2px 2px 2px 0px black;
 }
 
 .dpad-right:active{  
@@ -415,6 +419,8 @@ main{
     border-left: none;
     border-right: 1px solid grey;
     border-bottom: 1px solid grey;
+    box-shadow: 0 0 black;
+
 }
 
 .dpad-left{
