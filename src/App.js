@@ -6,6 +6,18 @@ import PokemonImage from './PokemonImage';
 import './App.css';
 import Searchbar from './Searchbar';
 
+class PokemonData{
+  name;
+  number;
+  image;
+
+
+  constructor(name, number, image, test=null){
+    this.name = name;
+    this.number = number;
+    this.image = image;
+  }
+}
 
 function App() {
 
@@ -14,19 +26,16 @@ const [currentPageUrl, setCurrentPageUrl] = useState("https://pokeapi.co/api/v2/
 const [nextPageUrl, setNextPageUrl] = useState()
 const [prevPageUrl, setPrevPageUrl] = useState()
 const [loading, setLoading] = useState(true)
-const [pokemonImage, setPokemonImage] = useState("")
+const [pokemon, setPokemon] = useState()
 const [searchPokemon, setSearchPokemon] = useState("")
-const [pokemonNum, setPokemonNum] = useState("")
-const [pokemonName, setPokemonName] = useState("")
-
+const [currentScreen, setCurrentScreen] = useState(1)
 
 const search = async () => {
   try{
     const url = `https://pokeapi.co/api/v2/pokemon/${searchPokemon}`;
     const res = await axios.get(url);
-    setPokemonNum(res.data.id);
-    setPokemonName(res.data.name);
-    setPokemonImage(res.data.sprites.other.dream_world.front_default);
+
+    setPokemon(new PokemonData(res.data.name, res.data.id, res.data.sprites.other["official-artwork"].front_default));
     console.log(res);
   } catch (e)
 {
@@ -63,18 +72,17 @@ useEffect(() => {
 const gotoNextPage = () => setCurrentPageUrl(nextPageUrl);
 const gotoPrevPage = () => setCurrentPageUrl(prevPageUrl);
 
-const baseImageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/";
-const imageExtension = ".svg";
+const baseImageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/";
+const imageExtension = ".png";
 
 const onViewPokemon = (selectedPokemon) => {
   
   const pokemonNumber = selectedPokemon.url.split("pokemon/")[1].replace("/", "");
   const pokemonImageUrl = `${baseImageUrl}${pokemonNumber}${imageExtension}`;
-  const viewedPokemonName = selectedPokemon.name
+  const viewedPokemonName = selectedPokemon.name;
 
-  setPokemonName(viewedPokemonName);
-  setPokemonNum(pokemonNumber);
-  setPokemonImage(pokemonImageUrl);
+  setPokemon(new PokemonData(viewedPokemonName, pokemonNumber, pokemonImageUrl));
+
 }
 
 
@@ -118,7 +126,7 @@ if(loading) return "Loading..."
               <div className="small-red-circle-1"></div>
               <div className="small-red-circle-2"></div>
               <div className="picture-container">
-                <PokemonImage pokemonImage={pokemonImage} pokemonNum={pokemonNum} pokemonName={pokemonName}/>
+                {pokemon && (currentScreen === 0 ? "Show stats screen" : currentScreen === 1 ? <PokemonImage pokemonImage={pokemon.image} pokemonNum={pokemon.number} pokemonName={pokemon.name}/> : "show summin")}
               </div>
               <div className="large-red-circle"></div>
               <div className="hamburger-icon-1"></div>

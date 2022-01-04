@@ -276,14 +276,12 @@ main{
 }
 
 .picture p{
-    font-size: 1.2rem;
-    margin-top: -5%;
-    padding: 3%;
+    font-size: 1.4rem;
 }
 
 .picture img{
-    height: 75%;
-    width: 75%;
+    height: 85%;
+    width: auto;
 }
 
 .picture span{
