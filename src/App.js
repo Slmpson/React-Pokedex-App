@@ -126,7 +126,7 @@ if(loading) return "Loading..."
               <div className="small-red-circle-1"></div>
               <div className="small-red-circle-2"></div>
               <div className="picture-container">
-                {pokemon && (currentScreen === 0 ? "Show stats screen" : currentScreen === 1 ? <PokemonImage pokemonImage={pokemon.image} pokemonNum={pokemon.number} pokemonName={pokemon.name}/> : "show summin")}
+                {pokemon && (currentScreen === 0 ? "Show stats screen" : setCurrentScreen ? <PokemonImage pokemonImage={pokemon.image} pokemonNum={pokemon.number} pokemonName={pokemon.name}/> : "show summin")}
               </div>
               <div className="large-red-circle"></div>
               <div className="hamburger-icon-1"></div>
