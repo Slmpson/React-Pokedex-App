@@ -5,6 +5,7 @@ import Pagination from './Pagination';
 import PokemonImage from './PokemonImage';
 import './App.css';
 import Searchbar from './Searchbar';
+import PokemonType from './PokemonType';
 
 class PokemonData{
   name;
@@ -26,9 +27,11 @@ const [currentPageUrl, setCurrentPageUrl] = useState("https://pokeapi.co/api/v2/
 const [nextPageUrl, setNextPageUrl] = useState()
 const [prevPageUrl, setPrevPageUrl] = useState()
 const [loading, setLoading] = useState(true)
+const [searching, setSearching] = useState(false);
 const [pokemon, setPokemon] = useState()
 const [searchPokemon, setSearchPokemon] = useState("")
-const [currentScreen, setCurrentScreen] = useState(1)
+const [currentScreen, setCurrentScreen] = useState(2)
+const [pokemonType, setPokemonType] = useState([])
 
 const search = async () => {
   try{
@@ -36,7 +39,9 @@ const search = async () => {
     const res = await axios.get(url);
 
     setPokemon(new PokemonData(res.data.name, res.data.id, res.data.sprites.other["official-artwork"].front_default));
+    setPokemonType(res.data.types)
     console.log(res);
+    setSearching(false);
   } catch (e)
 {
   console.log(e);
@@ -46,10 +51,17 @@ const handleChange = (e) => {
   setSearchPokemon(e.target.value.toLowerCase())
 }
 
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
-  search();
+  setSearching(true);
+  await search();
 }
+
+// useEffect(() => {
+//   if (searching) {
+//     search();
+//   }
+// }, [searching]);
 
 useEffect(() => {
   setLoading(true)
@@ -71,6 +83,9 @@ useEffect(() => {
 
 const gotoNextPage = () => setCurrentPageUrl(nextPageUrl);
 const gotoPrevPage = () => setCurrentPageUrl(prevPageUrl);
+
+const pageUp = () => setCurrentScreen(1);
+const pageDown = () => setCurrentScreen(2);
 
 const baseImageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/";
 const imageExtension = ".png";
@@ -126,7 +141,11 @@ if(loading) return "Loading..."
               <div className="small-red-circle-1"></div>
               <div className="small-red-circle-2"></div>
               <div className="picture-container">
-                {pokemon && (currentScreen === 0 ? "Show stats screen" : setCurrentScreen ? <PokemonImage pokemonImage={pokemon.image} pokemonNum={pokemon.number} pokemonName={pokemon.name}/> : "show summin")}
+                {pokemon && (currentScreen === 1 ? <PokemonImage pokemonImage={pokemon.image} pokemonNum={pokemon.number} pokemonName={pokemon.name}/> : 
+                  currentScreen === 2 ? <PokemonType pokemonType={pokemonType} pokemonNum={pokemon.number} pokemonName={pokemon.name} /> : ""
+                )}
+
+                
               </div>
               <div className="large-red-circle"></div>
               <div className="hamburger-icon-1"></div>
@@ -134,7 +153,7 @@ if(loading) return "Loading..."
               <div className="hamburger-icon-3"></div>
             </div>
             <div className="pokedex-right__bottom">
-              <Searchbar handleChange={handleChange} handleSubmit={handleSubmit}/>
+              <Searchbar handleChange={handleChange} handleSubmit={() => handleSubmit}/>
               <div className="fake-buttons-container">
                 <div className="black-circle"></div>
                 <div className="red-rectangle"></div>
@@ -142,8 +161,8 @@ if(loading) return "Loading..."
                 <div className="dpad-center"></div>
                 <button className='dpad-left'></button>
                 <button className='dpad-right'></button>
-                <button className='dpad-top'></button>
-                <button className='dpad-bottom'></button>
+                <button className='dpad-top' onClick={pageUp}></button>
+                <button className='dpad-bottom' onClick={pageDown}></button>
               </div>
             </div>
             
