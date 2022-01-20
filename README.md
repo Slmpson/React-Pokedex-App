@@ -6,7 +6,7 @@ This project uses the Pokemon API to search and bring up information on the quer
 
 Pokemon can be searched via a list or by using the search bar.
 
-This project idea was inspired when learning about React [https://www.youtube.com/watch?v=o3ZUc7zH8BE](here). I decided to expand upon what was created in the video and add my own styling and further functionality.
+This project idea was inspired when learning about React [here](https://www.youtube.com/watch?v=o3ZUc7zH8BE). I decided to expand upon what was created in the video and add my own styling and further functionality.
 
 
 ## Future updates
