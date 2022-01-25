@@ -30,18 +30,21 @@ const [loading, setLoading] = useState(true)
 const [searching, setSearching] = useState(false);
 const [pokemon, setPokemon] = useState()
 const [searchPokemon, setSearchPokemon] = useState("")
-const [currentScreen, setCurrentScreen] = useState(2)
+const [currentScreen, setCurrentScreen] = useState(1)
 const [pokemonType, setPokemonType] = useState([])
+
 
 const search = async () => {
   try{
     const url = `https://pokeapi.co/api/v2/pokemon/${searchPokemon}`;
     const res = await axios.get(url);
+    console.log(pokemonType)
 
     setPokemon(new PokemonData(res.data.name, res.data.id, res.data.sprites.other["official-artwork"].front_default));
     setPokemonType(res.data.types)
     console.log(res);
     setSearching(false);
+  
   } catch (e)
 {
   console.log(e);
@@ -51,10 +54,10 @@ const handleChange = (e) => {
   setSearchPokemon(e.target.value.toLowerCase())
 }
 
-const handleSubmit = async (e) => {
+const handleSubmit = (e) => {
   e.preventDefault();
   setSearching(true);
-  await search();
+  search();
 }
 
 // useEffect(() => {
@@ -91,17 +94,23 @@ const baseImageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/s
 const imageExtension = ".png";
 
 const onViewPokemon = (selectedPokemon) => {
+  console.log(selectedPokemon)
   
   const pokemonNumber = selectedPokemon.url.split("pokemon/")[1].replace("/", "");
   const pokemonImageUrl = `${baseImageUrl}${pokemonNumber}${imageExtension}`;
   const viewedPokemonName = selectedPokemon.name;
 
+
   setPokemon(new PokemonData(viewedPokemonName, pokemonNumber, pokemonImageUrl));
+  
 
 }
 
 
 if(loading) return "Loading..."
+
+
+
 
   return (
     <>
@@ -142,8 +151,8 @@ if(loading) return "Loading..."
               <div className="small-red-circle-2"></div>
               <div className="picture-container">
                 {pokemon && (currentScreen === 1 ? <PokemonImage pokemonImage={pokemon.image} pokemonNum={pokemon.number} pokemonName={pokemon.name}/> : 
-                  currentScreen === 2 ? <PokemonType pokemonType={pokemonType} pokemonNum={pokemon.number} pokemonName={pokemon.name} /> : ""
-                )}
+                  currentScreen === 2 ? <PokemonType pokemonType={pokemonType} pokemonNum={pokemon.number} pokemonName={pokemon.name} /> : "" )}
+                
 
                 
               </div>
@@ -153,7 +162,7 @@ if(loading) return "Loading..."
               <div className="hamburger-icon-3"></div>
             </div>
             <div className="pokedex-right__bottom">
-              <Searchbar handleChange={handleChange} handleSubmit={() => handleSubmit}/>
+              <Searchbar handleChange={handleChange} handleSubmit={handleSubmit}/>
               <div className="fake-buttons-container">
                 <div className="black-circle"></div>
                 <div className="red-rectangle"></div>
