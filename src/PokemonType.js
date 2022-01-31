@@ -11,7 +11,7 @@ export default function PokemonType({ pokemonType, pokemonNum, pokemonName }) {
                 {pokemonType.map((type, index) => (
                     <>
                         <div className="pokemon-types-container">
-                            <img src={type.imagePath} className="pokemon-type-img" />
+                            <img src={type.imagePath} className="pokemon-type-img" alt="" />
                             <p className="pokemonType" style={{ color: type.colour }} key={index}> {type.name}</p>
                         </div>
 
